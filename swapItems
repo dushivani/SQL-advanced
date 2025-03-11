@@ -1,0 +1,32 @@
+/*CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    item VARCHAR(255) NOT NULL
+);
+
+INSERT INTO orders (order_id, item) VALUES
+(1, 'Chow Mein'),
+(2, 'Pizza'),
+(3, 'Veg Nuggets'),
+(4, 'Paneer Butter Masala'),
+(5, 'Spring Rolls'),
+(6, 'Veg Burger'),
+(7, 'Paneer Tikka'); */
+
+--SELECT * from orders;
+
+/*Option1
+SELECT 
+case when order_id%2=0 then order_id -1
+when order_id%2!=0 and order_id=(SELECT count(*) from orders) then order_id 
+when order_id%2!=0 then order_id +1 
+end as new_id, item
+from orders ORDER by new_id ; */
+
+/*option2 
+select order_id,
+case when order_id%2!=0 then coalesce(lead(item) over (order by order_id), item)
+else lag(item) over (order by order_id)
+end as item
+from orders*/
+
+select * from orders 
