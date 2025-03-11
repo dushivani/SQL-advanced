@@ -31,8 +31,10 @@ from (
 select *,dense_rank() over(partition by category,product order by spend DESC) rank
 from ProductSpend )
 GROUP by category,product*/
+
+
 --option 1
-select category,product from(
+select category,product,totalspend from(
 select category, product, sum(spend) as totalspend
 ,ROW_NUMBER() over(partition by category order by sum(spend) DESC) frank
 from (
