@@ -1,0 +1,54 @@
+/* identifying "Supercloud" customers. These are customers who have purchased at least one product from every product category available.
+*/
+
+/*CREATE TABLE products (
+    Product_id INT NOT NULL ,
+    Product_category  VARCHAR(50) NOT NULL,
+    Product_name VARCHAR(50) NOT NULL,
+	PRIMARY KEY (Product_id)
+);
+
+-- Insert the data
+INSERT INTO products (Product_id,Product_category,Product_name) VALUES
+( 1, 'Analystics','Azure Databricks'),
+( 2, 'Analystics','Azure Stream Analystics'),
+( 3, 'Containers','Azure Kubernetes Servie'),
+( 4, 'Containers','Azure service Fabric'),
+( 5, 'Compute','Azure functions'),
+( 6, 'Compute','Azure VM') */
+
+/*CREATE TABLE customer_contracts (
+    Customer_id INT NOT NULL ,
+    Product_id INT NOT NULL ,
+    Amount INT
+	
+);
+
+-- Insert the data
+INSERT INTO customer_contracts (Customer_id,Product_id,Amount) VALUES
+( 1, 1,1000),
+( 2, 2,2000),
+( 3, 1,1100),
+( 4, 1,1000),
+( 7, 1,1000),
+( 7, 3,4000),
+( 6, 4,2000),
+( 1, 5,1500),
+( 2, 5,2000),
+( 4, 5,2200),
+( 7, 6,5000),
+( 1, 2,2000)
+--*/
+
+
+--select * from customer_contracts;
+--SELECT * from products;
+
+
+
+with cte as (
+select customer_id, row_number() over(partition by customer_id,product_category) rank from (
+SELECT * from customer_contracts c full join products p on c.Product_id=p.Product_id 
+order by customer_id)
+) select customer_id from cte where rank=1 
+GROUP by customer_id having count(*) =3
