@@ -52,3 +52,16 @@ SELECT * from customer_contracts c full join products p on c.Product_id=p.Produc
 order by customer_id)
 ) select customer_id from cte where rank=1 
 GROUP by customer_id having count(*) =3
+
+
+--option2
+
+
+with cte as (
+select customer_id, row_number() over(partition by customer_id,product_category) rank from (
+SELECT * from customer_contracts c full join products p on c.Product_id=p.Product_id 
+order by customer_id)
+) select customer_id from cte where rank=1 
+GROUP by customer_id having count(*) = (SELECT count(DISTINCT product_category) from products)
+
+
