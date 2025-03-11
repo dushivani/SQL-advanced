@@ -30,4 +30,4 @@ INSERT INTO sellers (seller_id, seller_name) VALUES
 
 
 select seller_name from orders_1 o left join sellers s on o.seller_id=s.seller_id
-where sale_date Not like '%2020%'
+where sale_date Not like '%2020%' order by seller_name
