@@ -37,8 +37,6 @@ GROUP by category,product*/
 select category,product,totalspend from(
 select category, product, sum(spend) as totalspend
 ,ROW_NUMBER() over(partition by category order by sum(spend) DESC) frank
-from (
-select *,dense_rank() over(partition by category,product order by spend DESC) rank
-from ProductSpend ) 
+from ProductSpend  
 GROUP by category,product
 ) where frank<=2
