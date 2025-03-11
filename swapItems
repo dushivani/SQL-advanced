@@ -1,3 +1,8 @@
+/*correcting a swapping error in Zomato's order database. Imagine each order's item has been mistakenly swapped with the next—
+our task is to use Common Table Expressions (CTEs) to realign the order IDs with the correct items. 
+Follow along as we solve this problem step-by-step and ensure data integrity.
+*/
+
 /*CREATE TABLE orders (
     order_id INT PRIMARY KEY,
     item VARCHAR(255) NOT NULL
