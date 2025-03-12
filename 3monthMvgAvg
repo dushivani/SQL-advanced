@@ -1,0 +1,46 @@
+/* You are given two tables: Customers and Orders. Your task is to calculate the 3-month moving average of sales revenue for each month, using the sales data in the Orders table.
+
+CREATE TABLE Customers (
+    Customer_id INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Join_Date DATE
+);
+INSERT INTO Customers (Customer_id, Name, Join_Date) VALUES
+(1, 'John', '2023-01-10'),
+(2, 'Simmy', '2023-02-15'),
+(3, 'Iris', '2023-03-20');
+
+
+CREATE TABLE Orders (
+    Order_id INT PRIMARY KEY,
+    Customer_id INT,
+    Order_Date DATE,
+    Amount DECIMAL(10, 2)
+);
+INSERT INTO Orders (Order_id, Customer_id, Order_Date, Amount) VALUES
+(1, 1, '2023-01-05', 100.00),
+(2, 2, '2023-02-14', 150.00),
+(3, 1, '2023-02-28', 200.00),
+(4, 3, '2023-03-22', 300.00),
+(5, 2, '2023-04-10', 250.00),
+(6, 1, '2023-05-15', 400.00),
+(7, 3, '2023-06-10', 350.00);
+*/
+
+--select * from Customers;
+--select * from Orders;
+
+with cte as (
+select strftime('%Y-%m',order_date) as month --use date_format(order_date,'%Y-%m') for mysql
+, sum(amount) as sales
+from Orders
+GROUP by strftime('%Y-%m',order_date)
+)
+
+select month, sales, 
+--round(avg(sales) over(order by month ROWs BETWEEN 2 Preceding and current row),2) as moving_avg
+case 
+when lag(sales,2) over(order by month) is null then sales   
+else round(avg(sales) over(order by month rows between 2 preceding and current row),0)  end  as "average_amount"
+from cte
+
