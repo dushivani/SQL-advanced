@@ -34,9 +34,16 @@ INSERT INTO queries (id, year) VALUES
 --SELECT * from npv;
 --SELECT * from queries;
 
-
+/* Option 1
 SELECT q.id, q.year, 
 CASE WHEN npv is null Then 0 
 else npv end as npv_value
+from npv n right join queries q on n.id=q.id and n.year = q.year
+order by q.id,q.year
+*/
+
+
+--Option 2
+SELECT q.*, IFNULL(n.npv,0) as npv
 from npv n right join queries q on n.id=q.id and n.year = q.year
 order by q.id,q.year
