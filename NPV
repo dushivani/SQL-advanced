@@ -1,0 +1,42 @@
+--finding the Net Present Value (NPV) for queries from two tables using SQL, if not present assign 0. 
+/*
+CREATE TABLE npv (
+    id INT,
+    year INT,
+    npv DECIMAL(10, 2)
+);
+
+INSERT INTO npv (id, year, npv)
+VALUES 
+(1, 2018, 100),
+(7, 2020, 30),
+(13, 2019, 40),
+(1, 2019, 113),
+(2, 2008, 121),
+(3, 2009, 12),
+(11, 2020, 99),
+(7, 2019, 0); 
+
+CREATE TABLE queries (
+    id INT,
+    year INT
+);
+INSERT INTO queries (id, year) VALUES
+(1, 2019),
+(2, 2008),
+(3, 2009),
+(7, 2018),
+(7, 2019),
+(7, 2020),
+(13, 2019);
+*/
+
+--SELECT * from npv;
+--SELECT * from queries;
+
+
+SELECT q.id, q.year, 
+CASE WHEN npv is null Then 0 
+else npv end as npv_value
+from npv n right join queries q on n.id=q.id and n.year = q.year
+order by q.id,q.year
