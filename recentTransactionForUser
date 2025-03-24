@@ -25,7 +25,7 @@ VALUES
 
 
 with cte as (
-select user_id, transaction_date, count(*), rank() over(partition by user_id order by transaction_date desc) as rnk
+select user_id, transaction_date, count(*) as purchase_count, rank() over(partition by user_id order by transaction_date desc) as rnk
 from transactions 
 group by user_id, transaction_date
 order by transaction_date desc
