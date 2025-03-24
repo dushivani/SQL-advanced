@@ -1,0 +1,32 @@
+--calculate the average rating for each restaurant for each month. 
+--We'll be using review data to calculate the average rating for each restaurant on a monthly basis. 
+
+/*
+CREATE TABLE reviews (
+    review_id INT PRIMARY KEY,
+    user_id INT,
+    submit_date DATE,
+    restaurant_id INT,
+    rating INT
+);
+INSERT INTO reviews (review_id, user_id, submit_date, restaurant_id, rating) VALUES
+(1001, 501, '2022-01-15', 101, 4),
+(1002, 502, '2022-01-20', 101, 5),
+(1003, 503, '2022-01-25', 102, 3),
+(1004, 504, '2022-01-15', 102, 4),
+(1005, 505, '2022-02-20', 101, 5),
+(1006, 506, '2022-02-26', 101, 4),
+(1007, 507, '2022-03-01', 101, 4),
+(1008, 508, '2022-03-05', 102, 2);  */
+
+--SELECT * from reviews where restaurant_id = 101 group by strftime('%m',submit_date)
+
+
+select restaurant_id, strftime('%m',submit_date) as month, avg(rating) as avg
+--, count(rating) 
+from reviews 
+group by restaurant_id, strftime('%m',submit_date)
+having count(rating) >=2
+order by restaurant_id
+
+
